@@ -13,20 +13,34 @@ import PersonIcon from "@mui/icons-material/Person";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
 import { Button, Modal, TextField, Box } from "@mui/material";
-
+import * as projectActions from "../store/action/Project";
+import { useDispatch, useSelector } from "react-redux";
 export default function ProjectCard({
 	name,
 	description,
 	timePeriod,
 	mentor,
 	category,
+	_id,
 }) {
 	const [seed, setSeed] = React.useState("");
+	const dispatch = useDispatch();
+	const token = useSelector((state) => state.Auth.token);
 	const [openApplyModal, setOpenApplyModal] = React.useState(false);
 	React.useEffect(() => {
 		setSeed(Math.floor(Math.random() * 5000));
 	}, []);
 	const [applyDescription, setApplyDescription] = React.useState("");
+
+	const applyNow = async () => {
+		try {
+			await dispatch(projectActions.ApplyNow(_id, applyDescription, token));
+			setOpenApplyModal(false);
+		} catch (error) {
+			console.log(error);
+			alert("Something went wrong");
+		}
+	};
 	return (
 		<Card
 			sx={{
@@ -50,7 +64,7 @@ export default function ProjectCard({
 					</IconButton>
 				}
 				title={name}
-				subheader={timePeriod}
+				subheader={`${timePeriod} months`}
 			/>
 			<CardContent>
 				<Typography variant="body2" color="#0938b6">
@@ -69,17 +83,17 @@ export default function ProjectCard({
 					<PersonIcon />
 				</IconButton>
 				<Typography variant="body2" color="text.secondary">
-					{mentor?.firstName}
+					{mentor?.firstName} {mentor?.lastName}
 				</Typography>
-				<Button
-					variant="contained"
-					onClick={() => setOpenApplyModal(true)}
-					size="small"
-				>
-					Apply now
-				</Button>
 			</CardActions>
-
+			<Button
+				style={{ marginBottom: "20px" }}
+				variant="contained"
+				onClick={() => setOpenApplyModal(true)}
+				size="small"
+			>
+				Apply now
+			</Button>
 			<Modal
 				open={openApplyModal}
 				onClose={() => {
@@ -96,7 +110,7 @@ export default function ProjectCard({
 						multiline
 						rows={4}
 					/>
-					<Button fullWidth variant="contained" onClick={() => {}}>
+					<Button fullWidth variant="contained" onClick={() => applyNow()}>
 						Add
 					</Button>
 				</ModalContainer>
@@ -113,7 +127,7 @@ const Row = styled.div`
 `;
 
 const ModalContainer = styled.div`
-	height: 80vh;
+	height: 40vh;
 	width: 40vw;
 	background-color: #fff;
 	margin: auto;

@@ -23,8 +23,13 @@ router.post("/project-data", auth, async (req, res) => {
 		});
 
 		await project.save();
-        let projects = await Project.find({}).populate({path: "mentor",model: "User",}).populate({ path: "acceptedUser", model: "User" }).populate({ path: "apply.mentee", model: "User" });
-		
+		let projects = await Project.find({})
+			.populate({
+				path: "mentor",
+				model: "User",
+			})
+			.populate({ path: "acceptedUser", model: "User" })
+			.populate({ path: "apply.mentee", model: "User" });
 		return res.send({ status: "Successful", projects });
 	} catch (error) {
 		console.log(error);
@@ -33,16 +38,19 @@ router.post("/project-data", auth, async (req, res) => {
 });
 
 router.post("/apply-data", auth, async (req, res) => {
-	let {description,projectId } = req.body;
+	let { description, projectId } = req.body;
 	const { _id } = req.user;
 	try {
 		console.log("token");
 		console.log(_id);
-        let project= await Project.findById(projectId)
-		project.apply.push({mentee:_id,description:description})
-        
+		let project = await Project.findById(projectId);
+		project.apply.push({ mentee: _id, description: description });
+
 		await project.save();
-		let projects = await Project.find({}).populate({path: "mentor",model: "User",}).populate({ path: "acceptedUser", model: "User" }).populate({ path: "apply.mentee", model: "User" });
+		let projects = await Project.find({})
+			.populate({ path: "mentor", model: "User" })
+			.populate({ path: "acceptedUser", model: "User" })
+			.populate({ path: "apply.mentee", model: "User" });
 		return res.send({ status: "Successfully applied", projects });
 	} catch (error) {
 		console.log(error);
@@ -50,11 +58,13 @@ router.post("/apply-data", auth, async (req, res) => {
 	}
 });
 
-router.get("/get-project",  async (req, res) => {
-	
+router.get("/get-project", async (req, res) => {
 	try {
 		console.log("get project");
-        let projects = await Project.find({}).populate({path: "mentor",model: "User",}).populate({ path: "acceptedUser", model: "User" }).populate({ path: "apply.mentee", model: "User" });
+		let projects = await Project.find({})
+			.populate({ path: "mentor", model: "User" })
+			.populate({ path: "acceptedUser", model: "User" })
+			.populate({ path: "apply.mentee", model: "User" });
 		return res.send({ status: "Successfully applied", projects });
 	} catch (error) {
 		console.log(error);
@@ -63,17 +73,20 @@ router.get("/get-project",  async (req, res) => {
 });
 
 router.post("/accept-data", auth, async (req, res) => {
-	let {acceptedUser,projectId } = req.body;
+	let { acceptedUser, projectId } = req.body;
 	const { _id } = req.user;
 	try {
 		console.log("token");
 		console.log(_id);
-        let project= await Project.findById(projectId)
-		project.acceptedUser=acceptedUser;
-        project.isAccepted=true;
-        
+		let project = await Project.findById(projectId);
+		project.acceptedUser = acceptedUser;
+		project.isAccepted = true;
+
 		await project.save();
-		let projects = await Project.find({}).populate({path: "mentor",model: "User",}).populate({ path: "acceptedUser", model: "User" }).populate({ path: "apply.mentee", model: "User" });
+		let projects = await Project.find({})
+			.populate({ path: "mentor", model: "User" })
+			.populate({ path: "acceptedUser", model: "User" })
+			.populate({ path: "apply.mentee", model: "User" });
 		return res.send({ status: "Successfully applied", projects });
 	} catch (error) {
 		console.log(error);
@@ -82,13 +95,15 @@ router.post("/accept-data", auth, async (req, res) => {
 });
 
 router.post("/show-profile", auth, async (req, res) => {
-	
 	const { _id } = req.user;
 	try {
 		console.log("token");
 		console.log(_id);
-        
-        let project= await Project.findOne({mentor:_id,isAccepted:false}).populate({path: "mentor",model: "User",}).populate({ path: "acceptedUser", model: "User" }).populate({ path: "apply.mentee", model: "User" });
+
+		let project = await Project.findOne({ mentor: _id, isAccepted: false })
+			.populate({ path: "mentor", model: "User" })
+			.populate({ path: "acceptedUser", model: "User" })
+			.populate({ path: "apply.mentee", model: "User" });
 
 		return res.send({ status: "Successfully shown", project });
 	} catch (error) {
@@ -96,7 +111,5 @@ router.post("/show-profile", auth, async (req, res) => {
 		return res.status(500).send({ Error: "Something went wrong" });
 	}
 });
-
-
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import SearchBar from "../components/SearchBar";
@@ -71,6 +71,19 @@ export default function LandingScreen() {
 			alert(error);
 		}
 	};
+
+	const getProjects = useCallback(async () => {
+		try {
+			await dispatch(projectActions.getAllProjects());
+		} catch (error) {
+			console.log(error);
+			alert("Something went wrong");
+		}
+	}, []);
+
+	useEffect(() => {
+		getProjects();
+	}, [getProjects]);
 
 	return (
 		<Container>
@@ -191,7 +204,7 @@ export default function LandingScreen() {
 					<Autocomplete
 						options={categories}
 						onChange={(event, newValue) => {
-							setCategory(newValue);
+							setCategory(newValue.label);
 						}}
 						inputValue={category}
 						autoHighlight

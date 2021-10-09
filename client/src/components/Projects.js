@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ProjectCard from "./Card";
+import { useSelector } from "react-redux";
 
 export default function Projects() {
-	const [projects, setProjects] = useState([
-		{ _id: "1" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-		{ _id: "2" },
-	]);
+	const projects = useSelector((state) => state.Project);
+	const [allProjects, setAllProjects] = useState(projects.projects);
 
 	const getProjects = () => {
-		return projects.map((p) => {
-			console.log(p);
-			return <ProjectCard />;
+		return allProjects?.map((p) => {
+			return (
+				<ProjectCard
+					key={p._id}
+					_id={p._id}
+					name={p.name}
+					description={p.description}
+					timePeriod={p.timePeriod}
+					category={p.category}
+					mentor={p.mentor}
+				/>
+			);
 		});
 	};
 	return (

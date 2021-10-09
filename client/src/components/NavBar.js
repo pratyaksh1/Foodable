@@ -8,10 +8,9 @@ export default function NavBar() {
 		<Container>
 			<Logo src={LogoPic} to="/home" />
 			<SubContainer>
-				<StyledLink to="#">Categories</StyledLink>
 				<StyledLink to="#">About Us</StyledLink>
 				<StyledLink to="#">Contact</StyledLink>
-				<StyledLink to="#">My Account</StyledLink>
+				<StyledLink to="profile">My Account</StyledLink>
 				<StyledLink to="/sign-up">Create Account</StyledLink>
 			</SubContainer>
 		</Container>
@@ -31,6 +30,7 @@ const Container = styled.div`
 	height: 10vh;
 	padding: 3rem;
 	box-sizing: border-box;
+	z-index: 1;
 `;
 
 const Logo = styled.img`

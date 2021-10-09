@@ -1,16 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User")
 
-const applySchema = new mongoose.Schema({
-	description: {
-		type: String,
-		required: true,
-	},
-	mentee: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: User,
-	},
-});
+
 
 const projectSchema = new mongoose.Schema({
 	name: {
@@ -54,7 +45,18 @@ const projectSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: User,
 	},
-	apply: [applySchema],
+	apply: [
+		{
+		description: {
+		type: String,
+		required: true,
+		},
+		mentee: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: User,
+		},
+		},
+		],
 });
 
 const Project = mongoose.model("project", projectSchema);

@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Routes from "./routes/Routes";
 import { CircularProgress } from "@mui/material";
 import AuthReducer from "./store/reducer/Auth";
+import ProjectReducer from "./store/reducer/Project";
 function App() {
 	const persistConfig = {
 		key: "root",
@@ -16,6 +17,7 @@ function App() {
 
 	const rootReducer = combineReducers({
 		Auth: AuthReducer,
+		Project: ProjectReducer,
 	});
 
 	const persistedReducer = persistReducer(persistConfig, rootReducer);

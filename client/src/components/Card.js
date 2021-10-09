@@ -12,14 +12,21 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
+import { Button, Modal, TextField, Box } from "@mui/material";
 
-export default function ProjectCard() {
-	const [expanded, setExpanded] = React.useState(false);
-
-	const handleExpandClick = () => {
-		setExpanded(!expanded);
-	};
-
+export default function ProjectCard({
+	name,
+	description,
+	timePeriod,
+	mentor,
+	category,
+}) {
+	const [seed, setSeed] = React.useState("");
+	const [openApplyModal, setOpenApplyModal] = React.useState(false);
+	React.useEffect(() => {
+		setSeed(Math.floor(Math.random() * 5000));
+	}, []);
+	const [applyDescription, setApplyDescription] = React.useState("");
 	return (
 		<Card
 			sx={{
@@ -33,7 +40,7 @@ export default function ProjectCard() {
 				avatar={
 					<Avatar
 						sx={{ bgcolor: red[500] }}
-						src="https://i.pravatar.cc/230"
+						src={`https://i.pravatar.cc/${seed}`}
 						aria-label="recipe"
 					></Avatar>
 				}
@@ -42,50 +49,58 @@ export default function ProjectCard() {
 						<MoreVertIcon />
 					</IconButton>
 				}
-				title="Project Name"
-				subheader="Time Period"
+				title={name}
+				subheader={timePeriod}
 			/>
 			<CardContent>
 				<Typography variant="body2" color="#0938b6">
-					This impressive paella is a perfect party dish and a fun meal to cook
-					together with your guests. Add 1 cup of frozen peas along with the
-					mussels, if you like.
+					{description}
 				</Typography>
 			</CardContent>
-			<Row>
-				<Chip
-					label="AI"
-					style={{ margin: "5px" }}
-					size="small"
-					variant="outlined"
-				/>
-				<Chip
-					label="DL"
-					style={{ margin: "5px" }}
-					size="small"
-					variant="outlined"
-				/>
-				<Chip
-					label="Web Development"
-					style={{ margin: "5px" }}
-					size="small"
-					variant="outlined"
-				/>
-				<Chip
-					label="Robotics"
-					style={{ margin: "5px" }}
-					size="small"
-					variant="outlined"
-				/>
-			</Row>
+			<Chip
+				label={category}
+				style={{ margin: "5px" }}
+				size="small"
+				variant="outlined"
+			/>
+
 			<CardActions disableSpacing>
 				<IconButton>
 					<PersonIcon />
 				</IconButton>
 				<Typography variant="body2" color="text.secondary">
-					User name
+					{mentor?.firstName}
 				</Typography>
+				<Button
+					variant="contained"
+					onClick={() => setOpenApplyModal(true)}
+					size="small"
+				>
+					Apply now
+				</Button>
 			</CardActions>
+
+			<Modal
+				open={openApplyModal}
+				onClose={() => {
+					setOpenApplyModal(false);
+				}}
+			>
+				<ModalContainer>
+					<StyledTextField
+						id="filled-multiline-static"
+						value={applyDescription}
+						onChange={(event) => setApplyDescription(event.target.value)}
+						label="Description,skills"
+						variant="standard"
+						multiline
+						rows={4}
+					/>
+					<Button fullWidth variant="contained" onClick={() => {}}>
+						Add
+					</Button>
+				</ModalContainer>
+			</Modal>
 		</Card>
 	);
 }
@@ -94,5 +109,20 @@ const Row = styled.div`
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: wrap;
+	margin: 10px;
+`;
+
+const ModalContainer = styled.div`
+	height: 80vh;
+	width: 40vw;
+	background-color: #fff;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	/* vertical-align: middle; */
+`;
+
+const StyledTextField = styled(TextField)`
 	margin: 10px;
 `;

@@ -1,4 +1,8 @@
-import { AUTHENTICATE_USER, SET_DID_TRY_AUTOLOGIN } from "../action/Auth";
+import {
+	AUTHENTICATE_USER,
+	SET_DID_TRY_AUTOLOGIN,
+	SIGN_UP_DETAILS,
+} from "../action/Auth";
 
 const initialState = {
 	userId: "",
@@ -29,7 +33,6 @@ export default function AuthReducer(state = initialState, action) {
 				firstName: action.payload.firstName,
 				lastName: action.payload.lastName,
 				isAuth: true,
-				provider: action.payload.provider,
 				phoneNumber: action.payload.phoneNumber,
 				emailId: action.payload.emailId,
 				collegeName: action.payload.collegeName,
@@ -37,7 +40,17 @@ export default function AuthReducer(state = initialState, action) {
 				token: action.payload.token,
 			};
 		}
-
+		case SIGN_UP_DETAILS: {
+			return {
+				//user_id acc to backend
+				...state,
+				firstName: action.payload.firstName,
+				lastName: action.payload.lastName,
+				emailId: action.payload.emailId,
+				collegeName: action.payload.collegeName,
+				yearOfStudy: action.payload.yearOfStudy,
+			};
+		}
 		default: {
 			return state;
 		}

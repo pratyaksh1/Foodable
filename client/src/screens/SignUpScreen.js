@@ -35,7 +35,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUpScreen() {
+export default function SignUpScreen(props) {
 	const dispatch = useDispatch();
 	const [isSent, setIsSent] = React.useState(false);
 	const [phoneNumber, setPhoneNumber] = React.useState();
@@ -55,6 +55,7 @@ export default function SignUpScreen() {
 	const login = async () => {
 		try {
 			await dispatch(authActions.authenticatePhoneNumber(otp, phoneNumber));
+			props.history.push("/home");
 		} catch (error) {
 			console.log(error);
 			alert("Something went wrong");

@@ -3,13 +3,30 @@ const _  = require("lodash");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-const {User}=require("../models/User")
-const {Project}=require("../models/Project");
-router.use(express.static("public"));
+const User=require("../models/User")
+const Project=require("../models/Project");
+
 const auth = require("../middlewares/auth");
 
-router.post("/project-data", async (req, res)=>{
- let {name,description,timePeriod,skills,mentor,isAccepted,acceptedUser,apply} = req.body;
- const { _id } = req.user;
+router.post("/project-data",auth, async (req, res)=>{
+ let {name,description,category,timePeriod} = req.body;
+ const {_id} = req.user;
+ try {
+ console.log("token");
+ console.log(_id);
+let project= new Project({
+    name,description,category,timePeriod,mentor:_id
+})
+	
 
+
+project = await project.save();
+// let projects= await Project.find({}).populate({path: 'user'});	
+// return res.send({projects: projects});
+ }
+ catch (error) {
+    console.log(error);
+    return res.status(500).send({ Error: "Something went wrong" });
+}
 });
+module.exports = router;

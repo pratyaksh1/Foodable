@@ -96,31 +96,40 @@ router.post("/authenticate-phoneNumber", async (req, res) => {
 });
 
 router.post("/signup-details", auth, async (req, res) => {
-	let { firstName, lastName, phoneNumber, emailId, collegeName, yearOfStudy } =
+	let { firstName, lastName, emailId, collegeName, yearOfStudy } =
 		req.body;
 
 	const { _id } = req.user;
 
 	console.log("token");
 	console.log(_id);
-	User.findByIdAndUpdate(
-		_id,
-		{
-			firstName: firstName,
-			lastName: lastName,
-			phoneNumber: phoneNumber,
-			emailId: emailId,
-			collegeName: collegeName,
-			yearOfStudy: yearOfStudy,
-		},
-		function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log("Updated User ");
-				return res.send({ token: token1 });
-			}
-		}
-	);
+    let user= await User.findById(_id)
+    user.firstName=firstName;
+    user.lastName=lastName;
+    user.lastName=lastName;
+    user.emailId=emailId;
+    user.collegeName=collegeName;
+    user.yearOfStudy=yearOfStudy;
+    user = await user.save();
+    
+   return res.status(200).send({firstName:user.firstName,lastName:user.lastName,emailId:user.emailId,collegeName:user.collegeName,yearOfStudy:user.yearOfStudy});
+        
+      
+});
+
+
+router.get("/autoLogin",auth, async (req, res) => {
+	const { _id } = req.user;
+	try {
+		let user = await User.findById(_id);
+		const token = user.generateAuthToken();
+		
+        
+        return res.status(200).send({token:token ,phoneNumber:user.phoneNumber,firstName:user.firstName,lastName:user.lastName,emailId:user.emailId,collegeName:user.collegeName,yearOfStudy:user.yearOfStudy});
+		// return res.status(200).send({ token, _id: user._id, details });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).send({ Error: "Something went wrong" });
+	}
 });
 module.exports = router;

@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
-
-const skillSchema = new mongoose.Schema({
-	skill: {
-		type: String,
-	},
-});
+const User = require("../models/User")
 
 const applySchema = new mongoose.Schema({
 	description: {
@@ -13,7 +8,7 @@ const applySchema = new mongoose.Schema({
 	},
 	mentee: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "user",
+		ref: User,
 	},
 });
 
@@ -29,27 +24,35 @@ const projectSchema = new mongoose.Schema({
 		required: true,
 	},
 	timePeriod: {
-		type: Number,
+		type: String,
 		minlength: 1,
 		maxlength: 1,
 		required: true,
 	},
-	skills: [skillSchema],
-	category: {
+	category:{
 		type: String,
-		enum: [""],
+		enum: [
+	        "Machine Learning",
+			"Artificial Intelligence",
+			"Deep learning" ,
+			"Web development",
+			"Python",
+			"C++",
+			"App devlopment",
+			"Data visualization",
+		],
 	},
 	mentor: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "user",
+		ref: User,
 	},
 	isAccepted: {
-		type: boolean,
+		type: Boolean,
 		default: false,
 	},
 	acceptedUser: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "user",
+		ref: User,
 	},
 	apply: [applySchema],
 });

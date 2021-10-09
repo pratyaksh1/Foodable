@@ -8,14 +8,14 @@ const app = express();
 const http = require("http").Server(app);
 const db = require("./config/db");
 const auth_router = require("./routes/auth")
-
+const project_router = require("./routes/project")
 db();
 app.use(cors());
 app.use(morgan("dev"));
 
 app.use(express.json({ extended: false, limit: "10mb" }));
 app.use("/auth",auth_router)
-
+app.use("/project",project_router)
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {

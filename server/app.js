@@ -3,14 +3,18 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const chalk = require("chalk");
+const cors= require("cors");
 const app = express();
 const http = require("http").Server(app);
 const db = require("./config/db");
+const auth_router = require("./routes/auth")
 
 db();
+app.use(cors());
 app.use(morgan("dev"));
 
 app.use(express.json({ extended: false, limit: "10mb" }));
+app.use("/auth",auth_router)
 
 const PORT = process.env.PORT || 5000;
 

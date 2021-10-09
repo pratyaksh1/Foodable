@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
-		required: true,
+		
 		trim: true,
 	},
 	lastName: {
 		type: String,
 		trim: true,
-		required: true,
+	
 	},
 	phoneNumber: {
 		type: Number,
@@ -20,11 +20,11 @@ const userSchema = new mongoose.Schema({
 	},
 	emailId: {
 		type: String,
-		required: true,
+		
 	},
 	collegeName: {
 		type: String,
-		required: true,
+		
 	},
 	yearOfStudy: {
 		type: String,
@@ -35,10 +35,13 @@ const userSchema = new mongoose.Schema({
 			"Fourth Year",
 			"Fifth Year",
 		],
-		required: true,
+		
 	},
 });
-
-const User = mongoose.model("user", userSchema);
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id }, process.env.jwtKey);
+    return token;
+};
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

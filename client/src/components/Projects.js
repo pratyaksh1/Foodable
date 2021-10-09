@@ -24,7 +24,7 @@ export default function Projects() {
 	};
 	return (
 		<Container>
-			<Title>Latest projects</Title>
+			<Title>Recent projects</Title>
 			<ProjectsContainer>{getProjects()}</ProjectsContainer>
 		</Container>
 	);

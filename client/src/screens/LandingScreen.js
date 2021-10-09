@@ -11,6 +11,7 @@ import { Autocomplete, Modal, TextField } from "@mui/material";
 import * as authActions from "../store/action/Auth";
 import * as projectActions from "../store/action/Project";
 import Box from "@mui/material/Box";
+import { CircularProgress } from "@mui/material";
 export default function LandingScreen() {
 	const auth = useSelector((state) => state.Auth);
 	const [openDetailsModal, setOpenDetailsModal] = useState(false);
@@ -20,6 +21,7 @@ export default function LandingScreen() {
 	const [emailId, setEmailId] = useState("");
 	const [yearOfStudy, setYearofStudy] = useState("");
 	const [collegeName, setCollegeName] = useState("");
+	const [isLoading,setIsLoading]=useState(false)
 
 	//PROJECT
 	const [projectName, setProjectName] = useState("");
@@ -56,6 +58,8 @@ export default function LandingScreen() {
 
 	const onSubmitProjectDetails = async () => {
 		try {
+			
+			setIsLoading(true)
 			await dispatch(
 				projectActions.addProject(
 					projectName,
@@ -65,6 +69,7 @@ export default function LandingScreen() {
 					auth.token
 				)
 			);
+			setIsLoading(false)
 			setOpenProjectModal(false);
 		} catch (error) {
 			console.log(error);
@@ -74,7 +79,9 @@ export default function LandingScreen() {
 
 	const getProjects = useCallback(async () => {
 		try {
+			setIsLoading(true)
 			await dispatch(projectActions.getAllProjects());
+			setIsLoading(false)
 		} catch (error) {
 			console.log(error);
 			alert("Something went wrong");
@@ -83,14 +90,20 @@ export default function LandingScreen() {
 
 	useEffect(() => {
 		getProjects();
-	}, [getProjects]);
+	}, []);
+
+	if(isLoading){
+		return <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh"}} >
+		<CircularProgress color="primary" />
+	</div>
+	}
 
 	return (
 		<Container>
 			<NavBar />
 			<SubContainer>
-				<BigText>5000 projects posted here</BigText>
-				<SmallText>Your time to learn</SmallText>
+				<BigText>Amongst thousands of projects</BigText>
+				<SmallText>Expand your horizon</SmallText>
 				<SearchBar />
 			</SubContainer>
 			<SubContainer
@@ -103,7 +116,7 @@ export default function LandingScreen() {
 				}}
 			>
 				<div>
-					<SmallText style={{ color: "#000" }}>Share your project</SmallText>
+					<SmallText style={{ color: "#000" }}>Begin your journey <br/> of being a mentor</SmallText>
 					<Button
 						onClick={() => setOpenProjectModal(true)}
 						style={{ marginTop: "2rem" }}
@@ -230,7 +243,7 @@ export default function LandingScreen() {
 					<StyledTextField
 						value={timePeriod}
 						onChange={(event) => setTimePeriod(event.target.value)}
-						label="Time Period"
+						label="Time Period (in months)"
 						variant="standard"
 					/>
 					<StyledTextField

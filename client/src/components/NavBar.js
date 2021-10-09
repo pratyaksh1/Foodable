@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoPic from "../assets/huge.png";
+import { useHistory } from "react-router";
 
 export default function NavBar() {
+	 const history = useHistory()
 	return (
 		<Container>
-			<Logo src={LogoPic} to="/home" />
+			<Logo src={LogoPic} onClick={()=>history.push("/home" )}/>
 			<SubContainer>
 				<StyledLink to="#">About Us</StyledLink>
 				<StyledLink to="#">Contact</StyledLink>
@@ -34,7 +36,8 @@ const Container = styled.div`
 `;
 
 const Logo = styled.img`
-	width: 6rem;
+	cursor: pointer;
+	width: 4rem;
 `;
 
 const SubContainer = styled.div`

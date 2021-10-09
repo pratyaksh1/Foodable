@@ -17,7 +17,7 @@ export default function Request({ mentee, mentor }) {
 			<SmallText>{mentee.description}</SmallText>
 			<Button
 				style={{ marginLeft: 0, marginRight: "auto", alignSelf: "flex-start" }}
-				href={`mailto:${user.emailId}?body=My custom mail body`}
+				href={`mailto:${mentee.mentee.emailId}?body=My custom mail body`}
 			>
 				Contact him
 			</Button>
@@ -48,4 +48,4 @@ const SmallText = styled.p`
 	text-align: left;
 `;
 
-// Hi, I am Keshav, I am a B.Tech 1st year student. I have an avid interest in machine learning and facial recognition fascinates me a lot.  I have little knowledge of sklearn and tensorflow libraries. This feels like a perfect opportunity to enhance my skills
+

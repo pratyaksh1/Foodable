@@ -45,8 +45,8 @@ export default function ProjectCard({
 		<Card
 			sx={{
 				margin: "2rem 0",
-				maxWidth: "20rem",
-				maxHeight: "25rem",
+				width: "20rem",
+				height: "22rem",
 				color: "#0938b6",
 			}}
 		>
@@ -58,16 +58,14 @@ export default function ProjectCard({
 						aria-label="recipe"
 					></Avatar>
 				}
-				action={
-					<IconButton aria-label="settings">
-						<MoreVertIcon />
-					</IconButton>
-				}
+				
 				title={name}
 				subheader={`${timePeriod} months`}
 			/>
 			<CardContent>
-				<Typography variant="body2" color="#0938b6">
+				<Typography variant="body2" color="#0938b6" style = {{ overflow: "hidden",textOverflow: "ellipsis",height: '100px',whitespace:"nowrap"
+					
+}}>
 					{description}
 				</Typography>
 			</CardContent>

@@ -20,7 +20,7 @@ export default function SearchBar() {
 				borderRadius: "0.7rem",
 			}}
 		>
-			<InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search for keywords" />
+			<InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search for projects" />
 			<IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
 				<SearchIcon />
 			</IconButton>

@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import * as projectActions from "../store/action/Project";
 import Request from "../components/Request";
 import { CircularProgress } from "@mui/material";
+import {Paper } from "@mui/material";
 
 export default function ProfileScreen() {
 	const user = useSelector((state) => state.Auth);
@@ -95,7 +96,9 @@ export default function ProfileScreen() {
 						{user.collegeName}
 					</Text>
 				</ProfileContainer>
-				<RequestContainer>{getAllApplications()}</RequestContainer>
+				<RequestContainer>
+					<BigText>Review collaboration request</BigText>
+					{getAllApplications()}</RequestContainer>
 			</Container>
 		</>
 	);
@@ -118,17 +121,19 @@ const Container = styled.div`
 	position: absolute;
 	width: 100vw;
 	display: flex;
+	background-color: #c3e6ff;
 	flex-direction: row;
 	align-items: center;
 `;
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled(Paper)`
 	height: 100vh;
 	width: 30vw;
 	background-color: #c3e6ff;
 	color: #0938b6;
 	padding-left: 40px;
 	display: flex;
+	// margin-left: 30px;
 	flex-direction: column;
 `;
 

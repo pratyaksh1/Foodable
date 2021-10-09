@@ -132,13 +132,13 @@ export default function SignUpScreen(props) {
 								>
 									Send OTP
 								</Button>
-								<Grid container>
+								{/* <Grid container>
 									<Grid item>
 										<Link href="#" variant="body2">
 											{"Don't have an account? Sign Up"}
 										</Link>
 									</Grid>
-								</Grid>
+								</Grid> */}
 								<Copyright sx={{ mt: 5 }} />
 							</Box>
 						) : (
